@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>千百度</title>
+	<style>
+	* {
+		padding: 0;
+		margin: 0;
+	}
+	.show {
+		width: 625px;
+		height: 38px;
+		margin: 100px auto;
+		position: relative;
+	}
+	#text {
+		width: 500px;
+		height: 34px;
+		text-indent: 10px;
+		float: left;
+		outline: none;
+		font-size: 16px;
+		color: black;
+	}
+	.name {
+		width: 102px;
+		height: 38px;
+		background-color: #d9d9d9;
+		font-size: 16px;
+		color: black;
+		line-height: 38px;
+		text-align: center;
+		cursor: pointer;
+		float: left;
+		text-decoration: none;
+	}
+	.name:hover {
+		background: #dad5d2;
+	}
+	.search {
+		width: 502px;
+		display: none;
+		border: 1px solid #ddd;
+		position: absolute;
+		top: 37px;
+	}
+	.search ul li {
+		list-style: none;
+		width: 502px;
+		height: 30px;
+		text-indent: 10px;
+		line-height: 30px;
+	}
+	.search ul li a {
+		color: #000;
+		text-decoration: none;
+		display: block;
+	}
+	.search ul li a:hover {
+		background: #ddd;
+	}
+	</style>
+</head>
+<body>
+	<div class="show">
+	<input type="text" id="text" placeholder="请输入关键字进行搜索">
+	<a class="name">千百度</a>
+		<div class="search">
+			<ul id="list"></ul>
+		</div>
+	</div>
+</body>
+	<script>
+	   		var oText = document.getElementById("text");
+			var oSea = document.getElementsByClassName("search")[0];
+			var oUl = oSea.getElementsByTagName("ul")[0];
+			var oBaidu = document.getElementsByClassName("name")[0];
+
+			oText.onkeyup = function() {
+				var val = this.value;		
+				//三目运算
+				oSea.style.display = val ? "block" : "none";
+				var os = document.createElement("script");
+				os.src = "https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=" + val + "&cb=searchShow";
+				document.body.appendChild(os);
+			};
+
+			// 点击<千百度>进行搜索
+			oBaidu.onclick = function() {
+				if(oText.value){
+					this.href = 'https:www.baidu.com/s?wd=' + oText.value;		
+				}else{
+					this.href = 'https://www.baidu.com/';	
+				}
+
+				//清空输入框的值
+				oText.value = '';
+			};
+
+			//输入框自动获取焦点
+			oText.focus();
+			
+			//输入框输入文字时下方自动出现关键字列表
+			function searchShow(json) {
+				oUl.innerHTML = '';
+				json.s.forEach(function(data) {
+					var oLi = document.createElement("li");
+					oLi.innerHTML = "<a href='https:www.baidu.com/s?wd=" + data + "'>" + data + "</a>";
+					oUl.appendChild(oLi);
+				});
+			};
+
+</script>
+</html>
